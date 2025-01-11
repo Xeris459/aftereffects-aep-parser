@@ -3,6 +3,7 @@ package aep
 import (
 	"bytes"
 	"encoding/binary"
+	"encoding/json"
 	"fmt"
 
 	"github.com/rioam2/rifx"
@@ -31,6 +32,16 @@ const (
 )
 
 // Item is a generalized object storing information about folders, compositions, or footage
+
+type Alas struct {
+	AscendCountBase   int    `json:"ascendcount_base"`
+	AscendCountTarget int    `json:"ascendcount_target"`
+	FullPath          string `json:"fullpath"`
+	Platform          int    `json:"platform"`
+	ServerName        string `json:"server_name"`
+	ServerVolumeName  string `json:"server_volume_name"`
+	TargetIsFolder    bool   `json:"target_is_folder"`
+}
 type Item struct {
 	Name              string
 	ID                uint32
@@ -40,6 +51,7 @@ type Item struct {
 	FootageFramerate  float64
 	FootageSeconds    float64
 	FootageType       FootageTypeName
+	FootageData       *Alas
 	BackgroundColor   [3]byte
 	CompositionLayers []*Layer
 }
@@ -114,6 +126,7 @@ func parseItem(itemHead *rifx.List, project *Project) (*Item, error) {
 			Framerate         uint32   // Offset 56B
 			FramerateDividend uint16   // Offset 60B
 		}
+
 		sspcDesc := &SSPC{}
 		sspcBlock.ToStruct(sspcDesc)
 		item.FootageDimensions = [2]uint16{uint16(sspcDesc.Width), uint16(sspcDesc.Height)}
@@ -128,9 +141,39 @@ func parseItem(itemHead *rifx.List, project *Project) (*Item, error) {
 		item.FootageType = FootageTypeName(binary.BigEndian.Uint16(optiData[4:6]))
 		switch item.FootageType {
 		case FootageTypeSolid:
-			item.Name = fmt.Sprintf("%s", bytes.ReplaceAll(bytes.Trim(optiData[26:255], "\x00"), []byte{0}, []byte{32}))
+			item.Name = string(bytes.ReplaceAll(bytes.Trim(optiData[26:255], "\x00"), []byte{0}, []byte{32}))
 		case FootageTypePlaceholder:
-			item.Name = fmt.Sprintf("%s", bytes.ReplaceAll(bytes.Trim(optiData[10:], "\x00"), []byte{0}, []byte{32}))
+			item.Name = string(bytes.ReplaceAll(bytes.Trim(optiData[10:], "\x00"), []byte{0}, []byte{32}))
+		}
+
+		als2List, err := pinList.SublistFind("Als2")
+		if err == nil {
+			alasBlock, err := als2List.FindByType("alas")
+			if err != nil {
+				return nil, err
+			}
+
+			if item.Name != "" {
+				alasData := alasBlock.Data.([]byte)
+				// fmt.Printf(string(alasData))
+				// decodedBytes, err := base64.StdEncoding.DecodeString(string(alasBlock.Data.([]byte)))
+				// if err != nil {
+				// 	return nil, err
+				// }
+
+				var data Alas
+				err = json.Unmarshal(alasData, &data)
+				if err != nil {
+					fmt.Printf("Run 2")
+					return nil, err
+				}
+
+				item.FootageData = &data
+			}
+		} else {
+			// fmt.Printf("tidak ada als2 di block name : %s\n", item.Name)
+
+			// item.FullPath = ""
 		}
 	case ItemTypeComposition:
 		type CDTA struct {
