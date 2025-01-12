@@ -2,10 +2,12 @@ package aep
 
 import (
 	"testing"
+
+	aep "github.com/xeris459/aftereffects-aep-parser/src"
 )
 
 func TestPropertyParsing(t *testing.T) {
-	project, err := Open("data/Property-01.aep")
+	project, err := aep.Open("data/Property-01.aep")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -23,12 +25,12 @@ func TestPropertyParsing(t *testing.T) {
 	expect(t, checkboxEffect.Index, uint32(1))
 	expect(t, checkboxEffect.MatchName, "ADBE Checkbox Control")
 	expect(t, checkboxEffect.Name, "Checkbox Control")
-	expect(t, checkboxEffect.PropertyType, PropertyTypeGroup)
+	expect(t, checkboxEffect.PropertyType, aep.PropertyTypeGroup)
 	expect(t, len(checkboxEffect.Properties), 1)
 	expect(t, checkboxEffect.Properties[0].Index, uint32(1))
 	expect(t, checkboxEffect.Properties[0].MatchName, "ADBE Checkbox Control-0001")
 	expect(t, checkboxEffect.Properties[0].Name, "Checkbox")
-	expect(t, checkboxEffect.Properties[0].PropertyType, PropertyTypeBoolean)
+	expect(t, checkboxEffect.Properties[0].PropertyType, aep.PropertyTypeBoolean)
 	expect(t, len(checkboxEffect.Properties[0].Properties), 0)
 	expect(t, len(checkboxEffect.Properties[0].SelectOptions), 0)
 
@@ -36,12 +38,12 @@ func TestPropertyParsing(t *testing.T) {
 	expect(t, sliderEffect.Index, uint32(2))
 	expect(t, sliderEffect.MatchName, "ADBE Slider Control")
 	expect(t, sliderEffect.Name, "Slider Control")
-	expect(t, sliderEffect.PropertyType, PropertyTypeGroup)
+	expect(t, sliderEffect.PropertyType, aep.PropertyTypeGroup)
 	expect(t, len(sliderEffect.Properties), 1)
 	expect(t, sliderEffect.Properties[0].Index, uint32(1))
 	expect(t, sliderEffect.Properties[0].MatchName, "ADBE Slider Control-0001")
 	expect(t, sliderEffect.Properties[0].Name, "Slider")
-	expect(t, sliderEffect.Properties[0].PropertyType, PropertyTypeOneD)
+	expect(t, sliderEffect.Properties[0].PropertyType, aep.PropertyTypeOneD)
 	expect(t, len(sliderEffect.Properties[0].Properties), 0)
 	expect(t, len(sliderEffect.Properties[0].SelectOptions), 0)
 
@@ -49,12 +51,12 @@ func TestPropertyParsing(t *testing.T) {
 	expect(t, pointEffect.Index, uint32(3))
 	expect(t, pointEffect.MatchName, "ADBE Point Control")
 	expect(t, pointEffect.Name, "Point Control")
-	expect(t, pointEffect.PropertyType, PropertyTypeGroup)
+	expect(t, pointEffect.PropertyType, aep.PropertyTypeGroup)
 	expect(t, len(pointEffect.Properties), 1)
 	expect(t, pointEffect.Properties[0].Index, uint32(1))
 	expect(t, pointEffect.Properties[0].MatchName, "ADBE Point Control-0001")
 	expect(t, pointEffect.Properties[0].Name, "Point")
-	expect(t, pointEffect.Properties[0].PropertyType, PropertyTypeTwoD)
+	expect(t, pointEffect.Properties[0].PropertyType, aep.PropertyTypeTwoD)
 	expect(t, len(pointEffect.Properties[0].Properties), 0)
 	expect(t, len(pointEffect.Properties[0].SelectOptions), 0)
 
@@ -62,12 +64,12 @@ func TestPropertyParsing(t *testing.T) {
 	expect(t, threeDPointEffect.Index, uint32(4))
 	expect(t, threeDPointEffect.MatchName, "ADBE Point3D Control")
 	expect(t, threeDPointEffect.Name, "3D Point Control")
-	expect(t, threeDPointEffect.PropertyType, PropertyTypeGroup)
+	expect(t, threeDPointEffect.PropertyType, aep.PropertyTypeGroup)
 	expect(t, len(threeDPointEffect.Properties), 1)
 	expect(t, threeDPointEffect.Properties[0].Index, uint32(1))
 	expect(t, threeDPointEffect.Properties[0].MatchName, "ADBE Point3D Control-0001")
 	expect(t, threeDPointEffect.Properties[0].Name, "3D Point")
-	expect(t, threeDPointEffect.Properties[0].PropertyType, PropertyTypeThreeD)
+	expect(t, threeDPointEffect.Properties[0].PropertyType, aep.PropertyTypeThreeD)
 	expect(t, len(threeDPointEffect.Properties[0].Properties), 0)
 	expect(t, len(threeDPointEffect.Properties[0].SelectOptions), 0)
 
@@ -75,12 +77,12 @@ func TestPropertyParsing(t *testing.T) {
 	expect(t, colorEffect.Index, uint32(5))
 	expect(t, colorEffect.MatchName, "ADBE Color Control")
 	expect(t, colorEffect.Name, "Color Control")
-	expect(t, colorEffect.PropertyType, PropertyTypeGroup)
+	expect(t, colorEffect.PropertyType, aep.PropertyTypeGroup)
 	expect(t, len(colorEffect.Properties), 1)
 	expect(t, colorEffect.Properties[0].Index, uint32(1))
 	expect(t, colorEffect.Properties[0].MatchName, "ADBE Color Control-0001")
 	expect(t, colorEffect.Properties[0].Name, "Color")
-	expect(t, colorEffect.Properties[0].PropertyType, PropertyTypeColor)
+	expect(t, colorEffect.Properties[0].PropertyType, aep.PropertyTypeColor)
 	expect(t, len(colorEffect.Properties[0].Properties), 0)
 	expect(t, len(colorEffect.Properties[0].SelectOptions), 0)
 
@@ -89,12 +91,12 @@ func TestPropertyParsing(t *testing.T) {
 	expect(t, angleEffect.MatchName, "ADBE Angle Control")
 	expect(t, angleEffect.Name, "Angle Control")
 	expect(t, angleEffect.Label, "Custom Angle Control Label")
-	expect(t, angleEffect.PropertyType, PropertyTypeGroup)
+	expect(t, angleEffect.PropertyType, aep.PropertyTypeGroup)
 	expect(t, len(angleEffect.Properties), 1)
 	expect(t, angleEffect.Properties[0].Index, uint32(1))
 	expect(t, angleEffect.Properties[0].MatchName, "ADBE Angle Control-0001")
 	expect(t, angleEffect.Properties[0].Name, "Angle")
-	expect(t, angleEffect.Properties[0].PropertyType, PropertyTypeAngle)
+	expect(t, angleEffect.Properties[0].PropertyType, aep.PropertyTypeAngle)
 	expect(t, len(angleEffect.Properties[0].Properties), 0)
 	expect(t, len(angleEffect.Properties[0].SelectOptions), 0)
 
@@ -102,12 +104,12 @@ func TestPropertyParsing(t *testing.T) {
 	expect(t, layerSelectEffect.Index, uint32(7))
 	expect(t, layerSelectEffect.MatchName, "ADBE Layer Control")
 	expect(t, layerSelectEffect.Name, "Layer Control")
-	expect(t, layerSelectEffect.PropertyType, PropertyTypeGroup)
+	expect(t, layerSelectEffect.PropertyType, aep.PropertyTypeGroup)
 	expect(t, len(layerSelectEffect.Properties), 1)
 	expect(t, layerSelectEffect.Properties[0].Index, uint32(1))
 	expect(t, layerSelectEffect.Properties[0].MatchName, "ADBE Layer Control-0001")
 	expect(t, layerSelectEffect.Properties[0].Name, "Layer")
-	expect(t, layerSelectEffect.Properties[0].PropertyType, PropertyTypeLayerSelect)
+	expect(t, layerSelectEffect.Properties[0].PropertyType, aep.PropertyTypeLayerSelect)
 	expect(t, len(layerSelectEffect.Properties[0].Properties), 0)
 	expect(t, len(layerSelectEffect.Properties[0].SelectOptions), 0)
 }

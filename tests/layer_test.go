@@ -2,10 +2,12 @@ package aep
 
 import (
 	"testing"
+
+	aep "github.com/xeris459/aftereffects-aep-parser/src"
 )
 
 func TestLayerMetadata(t *testing.T) {
-	project, err := Open("data/Layer-01.aep")
+	project, err := aep.Open("data/Layer-01.aep")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -19,13 +21,13 @@ func TestLayerMetadata(t *testing.T) {
 	expect(t, comp01.CompositionLayers[6].ThreeDEnabled)
 	expect(t, comp01.CompositionLayers[7].SoloEnabled)
 	expect(t, comp01.CompositionLayers[8].GuideEnabled)
-	expect(t, comp01.CompositionLayers[9].FrameBlendMode, LayerFrameBlendModePixelMotion)
-	expect(t, comp01.CompositionLayers[10].FrameBlendMode, LayerFrameBlendModeFrameMix)
-	expect(t, comp01.CompositionLayers[11].Quality, LayerQualityWireframe)
-	expect(t, comp01.CompositionLayers[12].Quality, LayerQualityDraft)
-	expect(t, comp01.CompositionLayers[13].Quality, LayerQualityBest)
-	expect(t, comp01.CompositionLayers[14].SamplingMode, LayerSamplingModeBilinear)
-	expect(t, comp01.CompositionLayers[15].SamplingMode, LayerSamplingModeBicubic)
+	expect(t, comp01.CompositionLayers[9].FrameBlendMode, aep.LayerFrameBlendModePixelMotion)
+	expect(t, comp01.CompositionLayers[10].FrameBlendMode, aep.LayerFrameBlendModeFrameMix)
+	expect(t, comp01.CompositionLayers[11].Quality, aep.LayerQualityWireframe)
+	expect(t, comp01.CompositionLayers[12].Quality, aep.LayerQualityDraft)
+	expect(t, comp01.CompositionLayers[13].Quality, aep.LayerQualityBest)
+	expect(t, comp01.CompositionLayers[14].SamplingMode, aep.LayerSamplingModeBilinear)
+	expect(t, comp01.CompositionLayers[15].SamplingMode, aep.LayerSamplingModeBicubic)
 	expect(t, comp01.CompositionLayers[16].VideoEnabled)
 	expect(t, comp01.CompositionLayers[16].AudioEnabled)
 }
